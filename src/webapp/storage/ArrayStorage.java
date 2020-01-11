@@ -8,60 +8,67 @@ import java.util.Arrays;
  * Array based storage for Resumes
  */
 public class ArrayStorage {
-    private Resume[] storage = new Resume[10000];
-    private int resumeCount = 0;
+    private Resume[] storage = new Resume[10_000];
+    private int countResumes = 0;
 
     public void clear() {
-        Arrays.fill(storage, 0, resumeCount, null);
-        resumeCount = 0;
+        Arrays.fill(storage, 0, countResumes, null);
+        countResumes = 0;
     }
 
     public void update(Resume resume) {
-        if (!isProvide(resume)) {
-            System.out.println("Resume is not founded.");
-        } else {
-            for (int i = 0; i < resumeCount; i++) {
+        if (checkResume(resume.getUuid())) {
+            for (int i = 0; i < countResumes; i++) {
                 if (storage[i].equals(resume)) {
                     storage[i].setUuid("uuid100");
                 }
             }
+        } else {
+            System.out.println("Resume is not found.");
         }
     }
 
     public void save(Resume resume) {
-        if (!isProvide(resume)) {
-            storage[resumeCount] = resume;
-            resumeCount++;
+        if (countResumes == 10_000) {
+            System.out.println("Storage is full.");
+        }
+        if (!checkResume(resume.getUuid())) {
+            storage[countResumes] = resume;
+            countResumes++;
         } else {
-            System.out.println("Resume is allready exist.");
+            System.out.println("Resume is already exist.");
         }
     }
 
     public Resume get(String uuid) {
-        if (!checkUuid(uuid)) {
-            System.out.println("Resume is not founded.");
-        }
-        for (int i = 0; i < resumeCount; i++) {
-            if (storage[i].getUuid().equals(uuid)) {
-                return storage[i];
+        if (checkResume(uuid)) {
+            for (int i = 0; i < countResumes; i++) {
+                if (storage[i].getUuid().equals(uuid)) {
+                    return storage[i];
+                }
             }
+        } else {
+            System.out.println("Resume is not found.");
         }
         return null;
     }
 
     public void delete(String uuid) {
-        if (!checkUuid(uuid)) {
-            System.out.println("Resume is not founded.");
-        }
-        for (int i = 0; i < resumeCount; i++) {
-            if (storage[i].getUuid().equals(uuid)) {
-                for (int k = i; k < resumeCount - 1; k++) {
-                    storage[k] = storage[k + 1];
+        if (checkResume(uuid)) {
+            for (int i = 0; i < countResumes; i++) {
+                if (storage[i].getUuid().equals(uuid)) {
+                    int k = i;
+                    while (k < countResumes - 1) {
+                        storage[k] = storage[k + 1];
+                        k++;
+                    }
+                    storage[countResumes - 1] = null;
+                    countResumes--;
+                    break;
                 }
-                storage[resumeCount - 1] = null;
-                resumeCount--;
-                break;
             }
+        } else {
+            System.out.println("Resume is not found.");
         }
     }
 
@@ -69,26 +76,15 @@ public class ArrayStorage {
      * @return array, contains only Resumes in storage (without null)
      */
     public Resume[] getAll() {
-        Resume[] resumes = Arrays.copyOfRange(storage, 0, resumeCount);
-        return resumes;
+        return Arrays.copyOfRange(storage, 0, countResumes);
     }
 
     public int size() {
-        return resumeCount;
+        return countResumes;
     }
 
-    private boolean isProvide(Resume resume) {
-        boolean result = false;
-        for (int i = 0; i < resumeCount; i++) {
-            if (storage[i].equals(resume)) {
-                result = true;
-            }
-        }
-        return result;
-    }
-
-    private boolean checkUuid(String uuid) {
-        for (int i = 0; i < resumeCount; i++) {
+    private boolean checkResume(String uuid) {
+        for (int i = 0; i < countResumes; i++) {
             if (storage[i].getUuid().equals(uuid)) {
                 return true;
             }
