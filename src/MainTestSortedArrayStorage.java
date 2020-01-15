@@ -22,13 +22,15 @@ public class MainTestSortedArrayStorage {
         ARRAY_STORAGE.save(r1);
         ARRAY_STORAGE.save(r2);
         ARRAY_STORAGE.save(r3);
+        ARRAY_STORAGE.save(r4);
         printAll();
 
         System.out.println("Get r1: " + ARRAY_STORAGE.get(r1.getUuid()));
         ARRAY_STORAGE.update(r4);
+        System.out.println("Size: " + ARRAY_STORAGE.size());
         ARRAY_STORAGE.update(r3);
         System.out.println("Get r3: " + ARRAY_STORAGE.get(r3.getUuid()));
-        System.out.println("Size: " + ARRAY_STORAGE.size()); // 3
+        System.out.println("Size: " + ARRAY_STORAGE.size());
 
         System.out.println("Get dummy: " + ARRAY_STORAGE.get("dummy"));
 

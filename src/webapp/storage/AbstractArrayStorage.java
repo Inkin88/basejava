@@ -17,6 +17,19 @@ public abstract class AbstractArrayStorage implements Storage {
         countResumes = 0;
     }
 
+    public abstract void save(Resume resume);
+
+    public abstract void delete(String uuid);
+
+    public void update(Resume resume) {
+        int index = getIndex(resume.getUuid());
+        if (index < 0) {
+            System.out.println("Resume " + resume.getUuid() + " not exist.");
+        } else {
+            storage[index] = resume;
+        }
+    }
+
     public Resume get(String uuid) {
         int index = getIndex(uuid);
         if (index == -1) {
