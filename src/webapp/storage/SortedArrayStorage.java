@@ -17,29 +17,16 @@ public class SortedArrayStorage extends AbstractArrayStorage {
     }
 
     @Override
-    public void save(Resume resume) {
-        int index = getIndex(resume.getUuid());
-        int absIndex = Math.abs(index);
-        System.out.println(index);
-        if (index >= 0) {
-            System.out.println("Resume " + resume.getUuid() + " already exist.");
-        } else if (countResumes >= storage.length) {
-            System.out.println("Storage is full");
-        } else {
-            System.arraycopy(storage, absIndex - 1, storage, absIndex, storage.length - absIndex);
-            storage[absIndex - 1] = resume;
-            countResumes++;
-        }
+    protected void addResume(Resume resume, int index) {
+        int addIndex = -index - 1;
+        System.arraycopy(storage, addIndex, storage, addIndex + 1, countResumes - addIndex);
+        storage[addIndex] = resume;
     }
 
     @Override
-    public void delete(String uuid) {
-        int index = getIndex(uuid);
-        if (index < 0) {
-            System.out.println("Resume " + uuid + " not exist.");
-        } else {
-            System.arraycopy(storage, index + 1, storage, index, storage.length - index - 1);
-            countResumes--;
+    protected void fillDeletedResumes(int index) {
+        if (countResumes > 0) {
+            System.arraycopy(storage, index + 1, storage, index, countResumes - index - 1);
         }
     }
 }

@@ -7,26 +7,12 @@ import webapp.model.Resume;
  */
 public class ArrayStorage extends AbstractArrayStorage {
 
-    public void save(Resume resume) {
-        if (getIndex(resume.getUuid()) != -1) {
-            System.out.println("Resume " + resume.getUuid() + " already exist.");
-        } else if (countResumes >= storage.length) {
-            System.out.println("Storage is full");
-        } else {
-            storage[countResumes] = resume;
-            countResumes++;
-        }
+    protected void addResume(Resume resume, int index) {
+        storage[countResumes] = resume;
     }
 
-    public void delete(String uuid) {
-        int index = getIndex(uuid);
-        if (index == -1) {
-            System.out.println("Resume " + uuid + " not exist.");
-        } else {
-            storage[index] = storage[countResumes - 1];
-            storage[countResumes - 1] = null;
-            countResumes--;
-        }
+    protected void fillDeletedResumes(int index) {
+        storage[index] = storage[countResumes - 1];
     }
 
     /**
