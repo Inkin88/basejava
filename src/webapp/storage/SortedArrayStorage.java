@@ -11,8 +11,7 @@ public class SortedArrayStorage extends AbstractArrayStorage {
 
     @Override
     protected int getIndex(String uuid) {
-        Resume searchResume = new Resume();
-        searchResume.setUuid(uuid);
+        Resume searchResume = new Resume(uuid);
         return Arrays.binarySearch(storage, 0, countResumes, searchResume);
     }
 
@@ -25,7 +24,7 @@ public class SortedArrayStorage extends AbstractArrayStorage {
 
     @Override
     protected void fillDeletedResumes(int index) {
-        if (countResumes > 0) {
+        if ((countResumes - index - 1) > 0) {
             System.arraycopy(storage, index + 1, storage, index, countResumes - index - 1);
         }
     }
