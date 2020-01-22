@@ -18,8 +18,8 @@ public class ArrayStorage extends AbstractArrayStorage {
     /**
      * @return array, contains only Resumes in storage (without null)
      */
-
-    protected int getIndex(String uuid) {
+    @Override
+    protected Integer getIndex(String uuid) {
         for (int i = 0; i < countResumes; i++) {
             if (storage[i].getUuid().equals(uuid)) {
                 return i;
