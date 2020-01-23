@@ -8,56 +8,48 @@ public abstract class AbstractStorage implements Storage {
 
     @Override
     public void update(Resume resume) {
-        checkForNotExistException(resume.getUuid());
-        doUpdate(resume);
+        doUpdate(resume, checkForNotExistException(resume.getUuid()));
     }
 
     @Override
     public void save(Resume resume) {
-        checkForExistException(resume.getUuid());
-        doSave(resume);
+        doSave(resume, checkForExistException(resume.getUuid()));
     }
 
     @Override
     public Resume get(String uuid) {
-        checkForNotExistException(uuid);
-        return doGet(uuid);
+        return doGet(checkForNotExistException(uuid));
     }
 
     @Override
     public void delete(String uuid) {
-        checkForNotExistException(uuid);
-        doDelete(get(uuid));
+        doDelete(checkForNotExistException(uuid));
     }
 
-    private void checkForExistException(String uuid) {
+    private Integer checkForExistException(String uuid) {
         if (checkResumeExist(uuid)) {
             throw new ExistStorageException(uuid);
         }
+        return getIndex(uuid);
     }
 
-    private void checkForNotExistException(String uuid) {
+    private Integer checkForNotExistException(String uuid) {
         if (!checkResumeExist(uuid)) {
             throw new NotExistStorageException(uuid);
         }
+        return getIndex(uuid);
     }
 
-    private boolean checkResumeExist(String uuid) {
-        boolean result = false;
-        if (getIndex(uuid) >= 0) {
-            result = true;
-        }
-        return result;
-    }
+    protected abstract boolean checkResumeExist(String uuid);
 
     protected abstract Integer getIndex(String uuid);
 
-    protected abstract void doUpdate(Resume resume);
+    protected abstract void doUpdate(Resume resume, int index);
 
-    protected abstract void doSave(Resume resume);
+    protected abstract void doSave(Resume resume, int index);
 
-    protected abstract void doDelete(Resume resume);
+    protected abstract void doDelete(int index);
 
-    protected abstract Resume doGet(String uuid);
+    protected abstract Resume doGet(int index);
 
 }
