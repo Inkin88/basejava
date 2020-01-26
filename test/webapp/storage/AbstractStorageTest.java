@@ -8,7 +8,7 @@ import webapp.exception.NotExistStorageException;
 import webapp.exception.StorageException;
 import webapp.model.Resume;
 
-public abstract class AbstractArrayStorageTest {
+public abstract class AbstractStorageTest {
 
     private static final String UUID_1 = "uuid_1";
     private static final String UUID_2 = "uuid_2";
@@ -26,7 +26,7 @@ public abstract class AbstractArrayStorageTest {
     private static final Resume RESUME5 = new Resume(UUID_5);
     private static final Resume RESUME6 = new Resume(UUID_6);
 
-    protected AbstractArrayStorageTest(Storage storage) {
+    protected AbstractStorageTest(Storage storage) {
         this.storage = storage;
     }
 

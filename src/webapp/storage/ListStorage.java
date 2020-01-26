@@ -15,23 +15,23 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    protected void doSave(Resume resume, int index) {
+    protected void doSave(Resume resume, Object key) {
         resumeList.add(resume);
     }
 
     @Override
-    protected void doDelete(int index) {
-        resumeList.remove(index);
+    protected void doDelete(Object key) {
+        resumeList.remove((int) key);
     }
 
     @Override
-    protected Resume doGet(int index) {
-        return resumeList.get(index);
+    protected Resume doGet(Object key) {
+        return resumeList.get((Integer) key);
     }
 
     @Override
-    protected void doUpdate(Resume resume, int index) {
-        resumeList.set(index, resume);
+    protected void doUpdate(Resume resume, Object key) {
+        resumeList.set((Integer) key, resume);
     }
 
     @Override
@@ -45,12 +45,12 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    protected boolean checkResumeExist(String uuid) {
-        return getIndex(uuid) != null;
+    protected boolean isResumeExist(Object key) {
+        return getKey((String) key) != null;
     }
 
     @Override
-    protected Integer getIndex(String uuid) {
+    protected Integer getKey(String uuid) {
         for (int i = 0; i < resumeList.size(); i++) {
             if (resumeList.get(i).getUuid().equals(uuid)) {
                 return i;

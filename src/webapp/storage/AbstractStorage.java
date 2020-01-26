@@ -8,48 +8,50 @@ public abstract class AbstractStorage implements Storage {
 
     @Override
     public void update(Resume resume) {
-        doUpdate(resume, checkForNotExistException(resume.getUuid()));
+        doUpdate(resume, getNotExistedKey(resume.getUuid()));
     }
 
     @Override
     public void save(Resume resume) {
-        doSave(resume, checkForExistException(resume.getUuid()));
+        doSave(resume, getExistedKey(resume.getUuid()));
     }
 
     @Override
     public Resume get(String uuid) {
-        return doGet(checkForNotExistException(uuid));
+        return doGet(getNotExistedKey(uuid));
     }
 
     @Override
     public void delete(String uuid) {
-        doDelete(checkForNotExistException(uuid));
+        doDelete(getNotExistedKey(uuid));
     }
 
-    private Integer checkForExistException(String uuid) {
-        if (checkResumeExist(uuid)) {
+    private Object getExistedKey(String uuid) {
+        Object key = getKey(uuid);
+        if (isResumeExist(key)) {
             throw new ExistStorageException(uuid);
         }
-        return getIndex(uuid);
+        return key;
     }
 
-    private Integer checkForNotExistException(String uuid) {
-        if (!checkResumeExist(uuid)) {
+    private Object getNotExistedKey(String uuid) {
+        Object key = getKey(uuid);
+        if (!isResumeExist(key)) {
             throw new NotExistStorageException(uuid);
         }
-        return getIndex(uuid);
+        return key;
     }
 
-    protected abstract boolean checkResumeExist(String uuid);
+    protected abstract boolean isResumeExist(Object key);
 
-    protected abstract Integer getIndex(String uuid);
+    protected abstract Object getKey(String uuid);
 
-    protected abstract void doUpdate(Resume resume, int index);
+    protected abstract void doUpdate(Resume resume, Object key);
 
-    protected abstract void doSave(Resume resume, int index);
+    protected abstract void doSave(Resume resume, Object key);
 
-    protected abstract void doDelete(int index);
+    protected abstract void doDelete(Object key);
 
-    protected abstract Resume doGet(int index);
+    protected abstract Resume doGet(Object key);
 
 }

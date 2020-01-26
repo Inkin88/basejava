@@ -20,30 +20,30 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    protected void doSave(Resume resume, int index) {
+    protected void doSave(Resume resume, Object key) {
         if (countResumes >= storage.length) {
             throw new StorageException("Storage is full", resume.getUuid());
         } else {
-            addResume(resume, index);
+            addResume(resume, (Integer) key);
             countResumes++;
         }
     }
 
     @Override
-    protected void doDelete(int index) {
-        fillDeletedResumes(index);
+    protected void doDelete(Object key) {
+        fillDeletedResumes((Integer) key);
         storage[countResumes - 1] = null;
         countResumes--;
     }
 
     @Override
-    protected void doUpdate(Resume resume, int index) {
-        storage[index] = resume;
+    protected void doUpdate(Resume resume, Object key) {
+        storage[(Integer) key] = resume;
     }
 
     @Override
-    protected Resume doGet(int index) {
-        return storage[index];
+    protected Resume doGet(Object key) {
+        return storage[(Integer) key];
     }
 
     @Override
@@ -57,8 +57,8 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    protected boolean checkResumeExist(String uuid) {
-        return getIndex(uuid) >= 0;
+    protected boolean isResumeExist(Object key) {
+        return (Integer) key >= 0;
     }
 
     protected abstract void addResume(Resume resume, int index);

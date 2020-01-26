@@ -15,11 +15,8 @@ public class ArrayStorage extends AbstractArrayStorage {
         storage[index] = storage[countResumes - 1];
     }
 
-    /**
-     * @return array, contains only Resumes in storage (without null)
-     */
     @Override
-    protected Integer getIndex(String uuid) {
+    protected Integer getKey(String uuid) {
         for (int i = 0; i < countResumes; i++) {
             if (storage[i].getUuid().equals(uuid)) {
                 return i;
