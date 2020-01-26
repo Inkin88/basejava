@@ -5,7 +5,6 @@ import org.junit.Before;
 import org.junit.Test;
 import webapp.exception.ExistStorageException;
 import webapp.exception.NotExistStorageException;
-import webapp.exception.StorageException;
 import webapp.model.Resume;
 
 public abstract class AbstractStorageTest {
@@ -17,7 +16,7 @@ public abstract class AbstractStorageTest {
     private static final String UUID_5 = "uuid_5";
     private static final String UUID_6 = "uuid_6";
 
-    private Storage storage;
+    protected Storage storage;
 
     private static final Resume RESUME1 = new Resume(UUID_1);
     private static final Resume RESUME2 = new Resume(UUID_2);
@@ -58,18 +57,6 @@ public abstract class AbstractStorageTest {
     @Test(expected = ExistStorageException.class)
     public void saveExist() {
         storage.save(new Resume(UUID_1));
-    }
-
-    @Test(expected = StorageException.class)
-    public void saveOverflow() {
-        try {
-            for (int i = storage.size(); i < AbstractArrayStorage.STORAGE_LIMIT; i++) {
-                storage.save(new Resume());
-            }
-        } catch (StorageException e) {
-            Assert.fail("Storage overflow");
-        }
-        storage.save(new Resume());
     }
 
     @Test(expected = NotExistStorageException.class)

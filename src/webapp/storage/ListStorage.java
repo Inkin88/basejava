@@ -21,7 +21,7 @@ public class ListStorage extends AbstractStorage {
 
     @Override
     protected void doDelete(Object key) {
-        resumeList.remove((int) key);
+        resumeList.remove(((Integer) key).intValue());
     }
 
     @Override
@@ -46,7 +46,7 @@ public class ListStorage extends AbstractStorage {
 
     @Override
     protected boolean isResumeExist(Object key) {
-        return getKey((String) key) != null;
+        return key != null;
     }
 
     @Override

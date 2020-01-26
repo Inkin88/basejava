@@ -13,7 +13,7 @@ public class MapStorage extends AbstractStorage {
 
     @Override
     protected boolean isResumeExist(Object key) {
-        return resumeMap.containsKey(key);
+        return resumeMap.containsKey((String) key);
     }
 
     @Override
@@ -33,12 +33,12 @@ public class MapStorage extends AbstractStorage {
 
     @Override
     protected void doDelete(Object key) {
-        resumeMap.remove(key);
+        resumeMap.remove((String) key);
     }
 
     @Override
     protected Resume doGet(Object key) {
-        return resumeMap.get(key);
+        return resumeMap.get((String) key);
     }
 
     @Override
