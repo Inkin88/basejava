@@ -4,7 +4,17 @@ import webapp.exception.ExistStorageException;
 import webapp.exception.NotExistStorageException;
 import webapp.model.Resume;
 
+import java.util.Comparator;
+
 public abstract class AbstractStorage implements Storage {
+
+    protected static final Comparator<Resume> sortByAllFields = new Comparator<Resume>() {
+        @Override
+        public int compare(Resume o1, Resume o2) {
+            int rs = o1.getFullName().compareTo(o2.getFullName());
+            return rs == 0 ? o1.getUuid().compareTo(o2.getUuid()) : rs;
+        }
+    };
 
     @Override
     public void update(Resume resume) {
