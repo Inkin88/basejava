@@ -13,7 +13,7 @@ public class MapResumeStorage extends AbstractStorage {
 
     @Override
     protected boolean isResumeExist(Object key) {
-        return resumeMap.containsValue((Resume) key);
+        return key != null;
     }
 
     @Override
@@ -33,7 +33,6 @@ public class MapResumeStorage extends AbstractStorage {
 
     @Override
     protected void doDelete(Object key) {
-        Resume resume = (Resume) key;
         resumeMap.remove(((Resume) key).getUuid());
     }
 
@@ -48,10 +47,8 @@ public class MapResumeStorage extends AbstractStorage {
     }
 
     @Override
-    public List<Resume> getAllSorted() {
-        List<Resume> resumes = new ArrayList<>(resumeMap.values());
-        resumes.sort(sortByAllFields);
-        return resumes;
+    public List<Resume> getList() {
+        return new ArrayList<>(resumeMap.values());
     }
 
     @Override
