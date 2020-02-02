@@ -7,6 +7,9 @@ import webapp.exception.ExistStorageException;
 import webapp.exception.NotExistStorageException;
 import webapp.model.Resume;
 
+import java.util.Arrays;
+import java.util.List;
+
 public abstract class AbstractStorageTest {
 
     private static final String UUID_1 = "uuid_1";
@@ -106,9 +109,8 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void getAllSorted() {
-        Resume[] resumes = new Resume[]{RESUME5, RESUME1, RESUME4, RESUME2, RESUME6, RESUME3};
-        Resume[] expectedResume = storage.getAllSorted().toArray(new Resume[0]);
-        Assert.assertArrayEquals(resumes, expectedResume);
-        Assert.assertEquals(6, expectedResume.length);
+        List<Resume> expectedResume = storage.getAllSorted();
+        Assert.assertEquals(expectedResume, Arrays.asList(RESUME5, RESUME1, RESUME4, RESUME2, RESUME6, RESUME3));
+        Assert.assertEquals(6, expectedResume.size());
     }
 }

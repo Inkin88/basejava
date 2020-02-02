@@ -32,19 +32,19 @@ public abstract class AbstractStorage implements Storage {
         doDelete(getNotExistedKey(uuid));
     }
 
+    @Override
+    public List<Resume> getAllSorted() {
+        List<Resume> sortedList = getList();
+        sortedList.sort(SORT_BY_ALL_FIELDS);
+        return sortedList;
+    }
+
     private Object getExistedKey(String uuid) {
         Object key = getKey(uuid);
         if (isResumeExist(key)) {
             throw new ExistStorageException(uuid);
         }
         return key;
-    }
-
-    @Override
-    public List<Resume> getAllSorted() {
-        List<Resume> sortedList = getList();
-        sortedList.sort(SORT_BY_ALL_FIELDS);
-        return sortedList;
     }
 
     private Object getNotExistedKey(String uuid) {

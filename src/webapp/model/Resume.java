@@ -17,7 +17,7 @@ public class Resume {
 
     public Resume(String uuid, String fullName) {
         this.uuid = Objects.requireNonNull(uuid);
-        this.fullName = Objects.requireNonNull(fullName);
+        this.fullName = fullName;
     }
 
     public String getUuid() {
