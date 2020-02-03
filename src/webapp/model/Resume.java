@@ -1,23 +1,32 @@
 package webapp.model;
 
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Initial resume class
  */
 public class Resume {
 
+    private Map<SectionType, Section> sectionMap = new HashMap<>();
+    private Map<ContactsType, String> contacts = new HashMap<>();
     private final String uuid;
     private final String fullName;
 
     public Resume(String fullName) {
-        this(UUID.randomUUID().toString(), Objects.requireNonNull(fullName));
+        this(UUID.randomUUID().toString(), fullName);
     }
 
     public Resume(String uuid, String fullName) {
         this.uuid = Objects.requireNonNull(uuid);
-        this.fullName = fullName;
+        this.fullName = Objects.requireNonNull(fullName);
+    }
+
+    public Section getSection(SectionType type) {
+        return sectionMap.get(type);
+    }
+
+    public String getContacts(ContactsType type) {
+        return contacts.get(type);
     }
 
     public String getUuid() {

@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Array based storage for Resumes
  */
-public abstract class AbstractArrayStorage extends AbstractStorage {
+public abstract class AbstractArrayStorage extends AbstractStorage<Integer> {
     protected static final int STORAGE_LIMIT = 10_000;
     protected Resume[] storage = new Resume[STORAGE_LIMIT];
     protected int countResumes = 0;
@@ -21,30 +21,30 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    protected void doSave(Resume resume, Object key) {
+    protected void doSave(Resume resume, Integer key) {
         if (countResumes >= storage.length) {
             throw new StorageException("Storage is full", resume.getUuid());
         } else {
-            addResume(resume, (Integer) key);
+            addResume(resume, key);
             countResumes++;
         }
     }
 
     @Override
-    protected void doDelete(Object key) {
-        fillDeletedResumes((Integer) key);
+    protected void doDelete(Integer key) {
+        fillDeletedResumes(key);
         storage[countResumes - 1] = null;
         countResumes--;
     }
 
     @Override
-    protected void doUpdate(Resume resume, Object key) {
-        storage[(Integer) key] = resume;
+    protected void doUpdate(Resume resume, Integer key) {
+        storage[key] = resume;
     }
 
     @Override
-    protected Resume doGet(Object key) {
-        return storage[(Integer) key];
+    protected Resume doGet(Integer key) {
+        return storage[key];
     }
 
     @Override
@@ -58,8 +58,8 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    protected boolean isResumeExist(Object key) {
-        return (Integer) key >= 0;
+    protected boolean isResumeExist(Integer key) {
+        return key >= 0;
     }
 
     protected abstract void addResume(Resume resume, int index);
