@@ -3,11 +3,11 @@ package webapp.model;
 import java.util.List;
 import java.util.Objects;
 
-public class SectionList extends Section {
+public class ListSection extends Section {
 
     private List<String> stringList;
 
-    public SectionList(List<String> stringList) {
+    public ListSection(List<String> stringList) {
         Objects.requireNonNull(stringList);
         this.stringList = stringList;
     }
@@ -20,7 +20,7 @@ public class SectionList extends Section {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        SectionList that = (SectionList) o;
+        ListSection that = (ListSection) o;
         return Objects.equals(stringList, that.stringList);
     }
 
@@ -31,8 +31,10 @@ public class SectionList extends Section {
 
     @Override
     public String toString() {
-        return "SectionList{" +
-                "stringList=" + stringList +
-                '}';
+        StringBuilder sb = new StringBuilder();
+        for (String str : stringList) {
+            sb.append(str).append("\n");
+        }
+        return sb.toString();
     }
 }

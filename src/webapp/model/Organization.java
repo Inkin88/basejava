@@ -17,7 +17,6 @@ public class Organization {
         Objects.requireNonNull(startDate);
         Objects.requireNonNull(endDate);
         Objects.requireNonNull(position);
-        Objects.requireNonNull(description);
         this.url = url;
         this.name = name;
         this.startDate = startDate;
@@ -32,10 +31,10 @@ public class Organization {
         if (o == null || getClass() != o.getClass()) return false;
         Organization that = (Organization) o;
         return Objects.equals(url, that.url) &&
-                Objects.equals(name, that.name) &&
-                Objects.equals(startDate, that.startDate) &&
-                Objects.equals(endDate, that.endDate) &&
-                Objects.equals(position, that.position) &&
+                name.equals(that.name) &&
+                startDate.equals(that.startDate) &&
+                endDate.equals(that.endDate) &&
+                position.equals(that.position) &&
                 Objects.equals(description, that.description);
     }
 
@@ -46,13 +45,8 @@ public class Organization {
 
     @Override
     public String toString() {
-        return "Organization{" +
-                "url='" + url + '\'' +
-                ", name='" + name + '\'' +
-                ", startDate=" + startDate +
-                ", endDate=" + endDate +
-                ", position='" + position + '\'' +
-                ", description='" + description + '\'' +
-                '}';
+        return url + " " + name + "\n" +
+                startDate + " - " + endDate + " " + position + "\n" +
+                description;
     }
 }

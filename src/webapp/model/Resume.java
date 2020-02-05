@@ -7,8 +7,8 @@ import java.util.*;
  */
 public class Resume {
 
-    private Map<SectionType, Section> sectionMap = new HashMap<>();
-    private Map<ContactsType, String> contacts = new HashMap<>();
+    private final Map<SectionType, Section> section = new EnumMap<>(SectionType.class);
+    private final Map<ContactsType, String> contacts = new EnumMap<>(ContactsType.class);
     private final String uuid;
     private final String fullName;
 
@@ -22,11 +22,19 @@ public class Resume {
     }
 
     public Section getSection(SectionType type) {
-        return sectionMap.get(type);
+        return section.get(type);
     }
 
     public String getContacts(ContactsType type) {
         return contacts.get(type);
+    }
+
+    public void addSection(SectionType type, Section section) {
+        this.section.put(type, section);
+    }
+
+    public void addContact(ContactsType contactsType, String contact) {
+        contacts.put(contactsType, contact);
     }
 
     public String getUuid() {
@@ -35,14 +43,6 @@ public class Resume {
 
     public String getFullName() {
         return fullName;
-    }
-
-    @Override
-    public String toString() {
-        return "Resume{" +
-                "uuid='" + uuid + '\'' +
-                ", fullName='" + fullName + '\'' +
-                '}';
     }
 
     @Override
@@ -57,5 +57,19 @@ public class Resume {
     @Override
     public int hashCode() {
         return Objects.hash(uuid, fullName);
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append(fullName).append("\n");
+        for (Map.Entry<ContactsType, String> entry : contacts.entrySet()) {
+            builder.append(entry.getKey().getContact()).append(": ").append(entry.getValue()).append("\n");
+        }
+        for (Map.Entry<SectionType, Section> entry : section.entrySet()) {
+            builder.append(entry.getKey().getTitle()).append("\n");
+            builder.append(entry.getValue());
+        }
+        return builder.toString();
     }
 }

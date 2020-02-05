@@ -3,11 +3,11 @@ package webapp.model;
 import java.util.List;
 import java.util.Objects;
 
-public class OrganizationList extends Section {
+public class OrganizationListSection extends Section {
 
     private List<Organization> organizationList;
 
-    public OrganizationList(List<Organization> organizationList) {
+    public OrganizationListSection(List<Organization> organizationList) {
         Objects.requireNonNull(organizationList);
         this.organizationList = organizationList;
     }
@@ -20,7 +20,7 @@ public class OrganizationList extends Section {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        OrganizationList that = (OrganizationList) o;
+        OrganizationListSection that = (OrganizationListSection) o;
         return Objects.equals(organizationList, that.organizationList);
     }
 
@@ -31,8 +31,10 @@ public class OrganizationList extends Section {
 
     @Override
     public String toString() {
-        return "OrganizationList{" +
-                "organizationList=" + organizationList +
-                '}';
+        StringBuilder sb = new StringBuilder();
+        for (Organization org : organizationList) {
+            sb.append(org).append("\n");
+        }
+        return sb.toString();
     }
 }
