@@ -3,9 +3,12 @@ package webapp.storage;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import webapp.ResumeTest;
 import webapp.exception.ExistStorageException;
 import webapp.exception.NotExistStorageException;
+import webapp.model.ContactsType;
 import webapp.model.Resume;
+import webapp.model.SectionType;
 
 import java.util.Arrays;
 import java.util.List;
@@ -47,6 +50,7 @@ public abstract class AbstractStorageTest {
         storage.save(RESUME4);
         storage.save(RESUME5);
         storage.save(RESUME6);
+        ResumeTest.init();
     }
 
     @Test
@@ -112,5 +116,15 @@ public abstract class AbstractStorageTest {
         List<Resume> expectedResume = storage.getAllSorted();
         Assert.assertEquals(expectedResume, Arrays.asList(RESUME5, RESUME1, RESUME4, RESUME2, RESUME6, RESUME3));
         Assert.assertEquals(6, expectedResume.size());
+    }
+
+    @Test
+    public void getContact() {
+        Assert.assertEquals(ResumeTest.getResume().getContacts(ContactsType.TELEPHONE), "+7(921) 855-0482");
+    }
+
+    @Test
+    public void getSection() {
+        Assert.assertEquals(ResumeTest.getResume().getSection(SectionType.OBJECTIVE).toString(), "Ведущий стажировок и корпоративного обучения по Java Web и Enterprise технологиям\n");
     }
 }
