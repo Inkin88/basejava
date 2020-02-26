@@ -30,7 +30,7 @@ public abstract class AbstractStorageTest {
 
     protected Storage storage;
 
-    private static final Resume RESUME1 = new Resume(UUID_1, FULLNAME_1);
+    private static final Resume RESUME1 = ResumeTest.getResume();
     private static final Resume RESUME2 = new Resume(UUID_2, FULLNAME_2);
     private static final Resume RESUME3 = new Resume(UUID_3, FULLNAME_3);
     private static final Resume RESUME4 = new Resume(UUID_4, FULLNAME_4);
@@ -50,7 +50,6 @@ public abstract class AbstractStorageTest {
         storage.save(RESUME4);
         storage.save(RESUME5);
         storage.save(RESUME6);
-        ResumeTest.init();
     }
 
     @Test
@@ -69,7 +68,7 @@ public abstract class AbstractStorageTest {
 
     @Test(expected = ExistStorageException.class)
     public void saveExist() {
-        storage.save(new Resume(UUID_1, FULLNAME_1));
+        storage.save(new Resume(UUID_2, FULLNAME_2));
     }
 
     @Test(expected = NotExistStorageException.class)
@@ -120,11 +119,11 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void getContact() {
-        Assert.assertEquals(ResumeTest.getResume().getContacts(ContactsType.TELEPHONE), "+7(921) 855-0482");
+        Assert.assertEquals(RESUME1.getContacts(ContactsType.TELEPHONE), "+7(921) 855-0482");
     }
 
     @Test
     public void getSection() {
-        Assert.assertEquals(ResumeTest.getResume().getSection(SectionType.OBJECTIVE).toString(), "Ведущий стажировок и корпоративного обучения по Java Web и Enterprise технологиям\n");
+        Assert.assertEquals(RESUME1.getSection(SectionType.OBJECTIVE).toString(), "Ведущий стажировок и корпоративного обучения по Java Web и Enterprise технологиям\n");
     }
 }

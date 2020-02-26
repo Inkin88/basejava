@@ -15,7 +15,7 @@ public class MainFile {
             if (f.isDirectory()) {
                 getFilesName(f);
             } else {
-                System.out.println(f);
+                System.out.println(f.getName());
             }
         }
     }

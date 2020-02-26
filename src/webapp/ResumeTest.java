@@ -9,9 +9,10 @@ import java.util.List;
 
 public class ResumeTest {
 
-    public static Resume resume = new Resume("Григорий Кислин");
+    public static Resume resume = new Resume("Kislin Grigory");
 
     public static Resume getResume() {
+        init();
         return resume;
     }
 
