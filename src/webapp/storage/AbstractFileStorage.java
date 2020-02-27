@@ -69,21 +69,20 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
 
     @Override
     protected void doDelete(File file) {
-        if (file.isFile()) {
-            file.delete();
+        if (file.delete()) {
             System.out.println(file.getName() + " deleted");
+        } else {
+            System.out.println(file.getName() + " not deleted");
         }
     }
 
     @Override
     protected Resume doGet(File file) {
-        Resume result = null;
         try {
-            result = doRead(file);
+            return doRead(file);
         } catch (IOException e) {
             throw new StorageException("IO error", file.getName(), e);
         }
-        return result;
     }
 
     @Override
