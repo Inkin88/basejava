@@ -10,10 +10,13 @@ import webapp.model.ContactsType;
 import webapp.model.Resume;
 import webapp.model.SectionType;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 
 public abstract class AbstractStorageTest {
+
+    protected static final File STORAGE_DIR = new File("C:\\projects\\basejava\\storage");
 
     private static final String UUID_1 = "uuid_1";
     private static final String UUID_2 = "uuid_2";
@@ -87,7 +90,7 @@ public abstract class AbstractStorageTest {
     public void update() {
         Resume resume = new Resume(UUID_2, FULLNAME_2);
         storage.update(resume);
-        Assert.assertSame(resume, storage.get(UUID_2));
+        Assert.assertEquals(resume, storage.get(UUID_2));
     }
 
     @Test(expected = NotExistStorageException.class)

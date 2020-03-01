@@ -1,11 +1,14 @@
 package webapp.model;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
-public class Organization {
+public class Organization implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private final String url;
     private final String name;
@@ -44,7 +47,7 @@ public class Organization {
         return sb.toString();
     }
 
-    public static class Position {
+    public static class Position implements Serializable {
         private final LocalDate startDate;
         private final LocalDate endDate;
         private final String position;

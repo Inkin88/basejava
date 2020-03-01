@@ -1,11 +1,14 @@
 package webapp.model;
 
+import java.io.Serializable;
 import java.util.*;
 
 /**
  * Initial resume class
  */
-public class Resume {
+public class Resume implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private final Map<SectionType, Section> section = new EnumMap<>(SectionType.class);
     private final Map<ContactsType, String> contacts = new EnumMap<>(ContactsType.class);

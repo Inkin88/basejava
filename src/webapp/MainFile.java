@@ -6,16 +6,21 @@ public class MainFile {
 
     public static void main(String[] args) {
         File file = new File("C:\\projects\\basejava");
-        getFilesName(file);
+        String str = "";
+        getFilesName(file, str);
     }
 
-    public static void getFilesName(File file) {
+    public static void getFilesName(File file, String str) {
         File[] list = file.listFiles();
-        for (File f : list) {
-            if (f.isDirectory()) {
-                getFilesName(f);
-            } else {
-                System.out.println(f.getName());
+        if (list != null) {
+            for (File f : list) {
+                if (f.isDirectory()) {
+                    System.out.println(str + "Directory: " + f.getName());
+                    getFilesName(f, str + " ");
+                } else {
+                    System.out.println(str + "File: " + f.getName());
+                }
+
             }
         }
     }
