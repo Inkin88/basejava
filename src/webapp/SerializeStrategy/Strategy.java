@@ -1,4 +1,4 @@
-package webapp.storage;
+package webapp.SerializeStrategy;
 
 import webapp.model.Resume;
 

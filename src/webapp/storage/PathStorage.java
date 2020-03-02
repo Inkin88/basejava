@@ -1,5 +1,6 @@
 package webapp.storage;
 
+import webapp.SerializeStrategy.Strategy;
 import webapp.exception.StorageException;
 import webapp.model.Resume;
 
@@ -28,20 +29,12 @@ public class PathStorage extends AbstractStorage<Path> {
 
     @Override
     public void clear() {
-        try {
-            Files.list(directory).forEach(this::doDelete);
-        } catch (IOException e) {
-            throw new StorageException("Path delete error", null);
-        }
+        fileList(directory).forEach(this::doDelete);
     }
 
     @Override
     public int size() {
-        try (Stream<Path> files = Files.list(directory)) {
-            return (int) files.count();
-        } catch (IOException e) {
-            throw new StorageException("IO error", null);
-        }
+        return (int) fileList(directory).count();
     }
 
     @Override
@@ -93,10 +86,14 @@ public class PathStorage extends AbstractStorage<Path> {
 
     @Override
     protected List<Resume> getList() {
+        return fileList(directory).map(this::doGet).collect(Collectors.toList());
+    }
+
+    private Stream<Path> fileList(Path directory) {
         try {
-           return Files.list(directory).map(this::doGet).collect(Collectors.toList());
+            return Files.list(directory);
         } catch (IOException e) {
-            throw  new StorageException("IO error", null);
+            throw new StorageException("IO error", null);
         }
     }
 }

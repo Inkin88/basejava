@@ -1,5 +1,6 @@
 package webapp.storage;
 
+import webapp.SerializeStrategy.Strategy;
 import webapp.exception.StorageException;
 import webapp.model.Resume;
 
@@ -70,10 +71,8 @@ public class FileStorage extends AbstractStorage<File> {
 
     @Override
     protected void doDelete(File file) {
-        if (file.delete()) {
-            System.out.println(file.getName() + " deleted");
-        } else {
-            System.out.println(file.getName() + " not deleted");
+        if (!file.delete()) {
+         throw new StorageException("File not deleted", null);
         }
     }
 
