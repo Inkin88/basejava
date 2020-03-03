@@ -5,7 +5,7 @@ import webapp.model.Resume;
 
 import java.io.*;
 
-public class SerializeResume implements Strategy {
+public class ObjectStreamStrategy implements Strategy {
 
     @Override
     public void doWrite(Resume resume, OutputStream outputStream) throws IOException {
