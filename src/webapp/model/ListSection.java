@@ -9,6 +9,9 @@ public class ListSection extends Section {
 
     private List<String> stringList;
 
+    public ListSection() {
+    }
+
     public ListSection(List<String> stringList) {
         Objects.requireNonNull(stringList);
         this.stringList = stringList;

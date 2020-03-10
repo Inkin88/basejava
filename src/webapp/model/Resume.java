@@ -1,19 +1,27 @@
 package webapp.model;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
-import java.util.*;
+import java.util.EnumMap;
+import java.util.Map;
+import java.util.Objects;
+import java.util.UUID;
 
-/**
- * Initial resume class
- */
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Resume implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     private final Map<SectionType, Section> section = new EnumMap<>(SectionType.class);
     private final Map<ContactsType, String> contacts = new EnumMap<>(ContactsType.class);
-    private final String uuid;
-    private final String fullName;
+    private String uuid;
+    private String fullName;
+
+    public Resume() {
+    }
 
     public Resume(String fullName) {
         this(UUID.randomUUID().toString(), fullName);
@@ -22,6 +30,18 @@ public class Resume implements Serializable {
     public Resume(String uuid, String fullName) {
         this.uuid = Objects.requireNonNull(uuid);
         this.fullName = Objects.requireNonNull(fullName);
+    }
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    public Map<SectionType, Section> getSections() {
+        return section;
+    }
+
+    public Map<ContactsType, String> getContacts() {
+        return contacts;
     }
 
     public Section getSection(SectionType type) {
@@ -55,13 +75,13 @@ public class Resume implements Serializable {
         Resume resume = (Resume) o;
         return Objects.equals(section, resume.section) &&
                 Objects.equals(contacts, resume.contacts) &&
-                uuid.equals(resume.uuid) &&
-                fullName.equals(resume.fullName);
+                Objects.equals(uuid, resume.uuid) &&
+                Objects.equals(fullName, resume.fullName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(uuid, fullName);
+        return Objects.hash(section, contacts, uuid, fullName);
     }
 
     @Override
