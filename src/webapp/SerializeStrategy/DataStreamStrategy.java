@@ -23,7 +23,7 @@ public class DataStreamStrategy implements Strategy {
                 dos.writeUTF(entry.getValue());
             }
             Map<SectionType, Section> sections = r.getSections();
-            dos.writeInt(contacts.size());
+            dos.writeInt(sections.size());
             for (Map.Entry<SectionType, Section> entry : sections.entrySet()) {
                 SectionType sectionType = entry.getKey();
                 Section section = entry.getValue();
@@ -51,7 +51,8 @@ public class DataStreamStrategy implements Strategy {
                             dos.writeInt(org.getPositions().size());
                             List<Organization.Position> positions = org.getPositions();
                             for (Organization.Position position : positions) {
-                                writeLocalDate(dos, position);
+                                writeLocalDate(dos, position.getStartDate());
+                                writeLocalDate(dos, position.getEndDate());
                                 dos.writeUTF(position.getPosition());
                                 dos.writeUTF(position.getDescription());
                             }
@@ -62,23 +63,13 @@ public class DataStreamStrategy implements Strategy {
         }
     }
 
-    private void writeLocalDate(DataOutputStream dataOutputStream, Organization.Position position) {
-        try {
-            dataOutputStream.writeInt(position.getStartDate().getYear());
-            dataOutputStream.writeInt(position.getStartDate().getMonth().getValue());
-            dataOutputStream.writeInt(position.getEndDate().getYear());
-            dataOutputStream.writeInt(position.getEndDate().getMonth().getValue());
-        } catch (IOException e) {
-            throw new StorageException("IO error", null);
-        }
+    private void writeLocalDate(DataOutputStream dataOutputStream, LocalDate localDate) throws IOException {
+            dataOutputStream.writeInt(localDate.getYear());
+            dataOutputStream.writeInt(localDate.getMonth().getValue());
     }
 
-    private LocalDate readLocalDate(DataInputStream dataInputStream) {
-        try {
-            return LocalDate.of(dataInputStream.readInt(), dataInputStream.readInt(), 1);
-        } catch (IOException e) {
-            throw new StorageException("IO error", null);
-        }
+    private LocalDate readLocalDate(DataInputStream dataInputStream) throws IOException {
+        return LocalDate.of(dataInputStream.readInt(), dataInputStream.readInt(), 1);
     }
 
     @Override
@@ -116,9 +107,9 @@ public class DataStreamStrategy implements Strategy {
             case EXPERIENCE:
             case EDUCATION:
                 List<Organization> organizationList = new ArrayList<>();
-                List<Organization.Position> positions = new ArrayList<>();
                 int organListSize = dis.readInt();
                 for (int i = 0; i < organListSize; i++) {
+                    List<Organization.Position> positions = new ArrayList<>();
                     String url = dis.readUTF();
                     String name = dis.readUTF();
                     int posSize = dis.readInt();
@@ -129,8 +120,8 @@ public class DataStreamStrategy implements Strategy {
                     organizationList.add(new Organization(url, name, positions));
                 }
                 return new OrganizationListSection(organizationList);
-                default:
-                    throw new StorageException("Что-то случилось", null);
+            default:
+                throw new StorageException("Что-то случилось", null);
         }
     }
 }
