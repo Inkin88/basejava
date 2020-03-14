@@ -6,6 +6,7 @@ import webapp.model.*;
 import java.io.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -17,16 +18,14 @@ public class DataStreamStrategy implements Strategy {
             dos.writeUTF(r.getUuid());
             dos.writeUTF(r.getFullName());
             Map<ContactsType, String> contacts = r.getContacts();
-            dos.writeInt(contacts.size());
-            for (Map.Entry<ContactsType, String> entry : contacts.entrySet()) {
-                dos.writeUTF(entry.getKey().name());
-                dos.writeUTF(entry.getValue());
-            }
+            writeWithException(dos, contacts.entrySet(), contactsTypeStringEntry -> {
+                dos.writeUTF(contactsTypeStringEntry.getKey().name());
+                dos.writeUTF(contactsTypeStringEntry.getValue());
+            });
             Map<SectionType, Section> sections = r.getSections();
-            dos.writeInt(sections.size());
-            for (Map.Entry<SectionType, Section> entry : sections.entrySet()) {
-                SectionType sectionType = entry.getKey();
-                Section section = entry.getValue();
+            writeWithException(dos, sections.entrySet(), sectionTypeSectionEntry -> {
+                SectionType sectionType = sectionTypeSectionEntry.getKey();
+                Section section = sectionTypeSectionEntry.getValue();
                 dos.writeUTF(sectionType.name());
                 switch (sectionType) {
                     case OBJECTIVE:
@@ -35,37 +34,29 @@ public class DataStreamStrategy implements Strategy {
                         break;
                     case ACHIEVEMENT:
                     case QUALIFICATION:
-                        List<String> stringList = ((ListSection) section).getStringList();
-                        dos.writeInt(stringList.size());
-                        for (String s : stringList) {
-                            dos.writeUTF(s);
-                        }
+                        writeWithException(dos, ((ListSection) section).getStringList(), dos::writeUTF);
                         break;
                     case EXPERIENCE:
                     case EDUCATION:
-                        List<Organization> organizationList = ((OrganizationListSection) section).getOrganizationList();
-                        dos.writeInt(organizationList.size());
-                        for (Organization org : organizationList) {
+                        writeWithException(dos, ((OrganizationListSection) section).getOrganizationList(), org -> {
                             dos.writeUTF(org.getUrl());
                             dos.writeUTF(org.getName());
-                            dos.writeInt(org.getPositions().size());
-                            List<Organization.Position> positions = org.getPositions();
-                            for (Organization.Position position : positions) {
+                            writeWithException(dos, org.getPositions(), position -> {
                                 writeLocalDate(dos, position.getStartDate());
                                 writeLocalDate(dos, position.getEndDate());
                                 dos.writeUTF(position.getPosition());
                                 dos.writeUTF(position.getDescription());
-                            }
-                        }
+                            });
+                        });
                         break;
                 }
-            }
+            });
         }
     }
 
     private void writeLocalDate(DataOutputStream dataOutputStream, LocalDate localDate) throws IOException {
-            dataOutputStream.writeInt(localDate.getYear());
-            dataOutputStream.writeInt(localDate.getMonth().getValue());
+        dataOutputStream.writeInt(localDate.getYear());
+        dataOutputStream.writeInt(localDate.getMonth().getValue());
     }
 
     private LocalDate readLocalDate(DataInputStream dataInputStream) throws IOException {
@@ -122,6 +113,18 @@ public class DataStreamStrategy implements Strategy {
                 return new OrganizationListSection(organizationList);
             default:
                 throw new StorageException("Что-то случилось", null);
+        }
+    }
+
+    @FunctionalInterface
+    private interface writeElement<T> {
+        void write(T t) throws IOException;
+    }
+
+    private <T> void writeWithException(DataOutputStream dataOutputStream, Collection<T> collection, writeElement<T> elementWrite) throws IOException {
+        dataOutputStream.writeInt(collection.size());
+        for (T t : collection) {
+            elementWrite.write(t);
         }
     }
 }
