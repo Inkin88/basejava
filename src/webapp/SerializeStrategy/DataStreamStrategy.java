@@ -69,15 +69,11 @@ public class DataStreamStrategy implements Strategy {
             String uuid = dis.readUTF();
             String fullName = dis.readUTF();
             Resume resume = new Resume(uuid, fullName);
-            int size = dis.readInt();
-            for (int i = 0; i < size; i++) {
-                resume.addContact(ContactsType.valueOf(dis.readUTF()), dis.readUTF());
-            }
-            int size2 = dis.readInt();
-            for (int k = 0; k < size2; k++) {
+            readWithException(dis, () -> resume.addContact(ContactsType.valueOf(dis.readUTF()), dis.readUTF()));
+            readWithException(dis, () -> {
                 SectionType type = SectionType.valueOf(dis.readUTF());
                 resume.addSection(type, getSection(dis, type));
-            }
+            });
             return resume;
         }
     }
@@ -89,28 +85,12 @@ public class DataStreamStrategy implements Strategy {
                 return new TextSection(dis.readUTF());
             case ACHIEVEMENT:
             case QUALIFICATION:
-                List<String> strings = new ArrayList<>();
-                int size = dis.readInt();
-                for (int i = 0; i < size; i++) {
-                    strings.add(dis.readUTF());
-                }
-                return new ListSection(strings);
+                return new ListSection(getList(dis, dis::readUTF));
             case EXPERIENCE:
             case EDUCATION:
-                List<Organization> organizationList = new ArrayList<>();
-                int organListSize = dis.readInt();
-                for (int i = 0; i < organListSize; i++) {
-                    List<Organization.Position> positions = new ArrayList<>();
-                    String url = dis.readUTF();
-                    String name = dis.readUTF();
-                    int posSize = dis.readInt();
-                    for (int k = 0; k < posSize; k++) {
-                        positions.add(new Organization.Position(readLocalDate(dis), readLocalDate(dis),
-                                dis.readUTF(), dis.readUTF()));
-                    }
-                    organizationList.add(new Organization(url, name, positions));
-                }
-                return new OrganizationListSection(organizationList);
+                return new OrganizationListSection(getList(dis, () -> new Organization(dis.readUTF(), dis.readUTF(),
+                        getList(dis, () -> new Organization.Position(readLocalDate(dis), readLocalDate(dis),
+                                dis.readUTF(), dis.readUTF())))));
             default:
                 throw new StorageException("Что-то случилось", null);
         }
@@ -121,10 +101,36 @@ public class DataStreamStrategy implements Strategy {
         void write(T t) throws IOException;
     }
 
+    @FunctionalInterface
+    private interface readElement<T> {
+        T read() throws IOException;
+    }
+
+    @FunctionalInterface
+    private interface AddElements {
+        void action() throws IOException;
+    }
+
     private <T> void writeWithException(DataOutputStream dataOutputStream, Collection<T> collection, writeElement<T> elementWrite) throws IOException {
         dataOutputStream.writeInt(collection.size());
         for (T t : collection) {
             elementWrite.write(t);
         }
+    }
+
+    private void readWithException(DataInputStream dataInputStream, AddElements elements) throws IOException {
+        int size = dataInputStream.readInt();
+        for (int i = 0; i < size; i++) {
+            elements.action();
+        }
+    }
+
+    private <T> List<T> getList(DataInputStream dataInputStream, readElement<T> elementRead) throws IOException {
+        List<T> list = new ArrayList<>();
+        int size = dataInputStream.readInt();
+        for (int i = 0; i < size; i++) {
+            list.add(elementRead.read());
+        }
+        return list;
     }
 }
