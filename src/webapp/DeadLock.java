@@ -6,32 +6,22 @@ public class DeadLock {
     private final static Object two = new Object();
 
     public static void main(String[] args) {
-        Thread thread = new Thread(() -> {
-            synchronized (one) {
+        lock(one, two);
+        lock(two, one);
+    }
+
+    private static void lock(Object o1, Object o2) {
+        new Thread(() -> {
+            synchronized (o1) {
                 try {
                     Thread.sleep(50);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                synchronized (two) {
+                synchronized (o2) {
                     System.out.println(Thread.currentThread().getName() + " Hello");
                 }
             }
-        });
-        Thread thread1 = new Thread(() -> {
-            synchronized (two) {
-                try {
-                    Thread.sleep(50);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                synchronized (one) {
-                    System.out.println(Thread.currentThread().getName() + " Hello2");
-                }
-            }
-        });
-        thread.start();
-        thread1.start();
+        }).start();
     }
-
 }
