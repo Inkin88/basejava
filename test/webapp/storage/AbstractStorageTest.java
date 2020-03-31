@@ -3,6 +3,7 @@ package webapp.storage;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import webapp.Config;
 import webapp.ResumeTest;
 import webapp.exception.ExistStorageException;
 import webapp.exception.NotExistStorageException;
@@ -11,12 +12,13 @@ import webapp.model.Resume;
 import webapp.model.SectionType;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public abstract class AbstractStorageTest {
 
-    protected static final File STORAGE_DIR = new File("C:\\projects\\basejava\\storage");
+    protected static final File STORAGE_DIR = Config.get().getStorageDir();
 
     private static final String UUID_1 = "uuid_1";
     private static final String UUID_2 = "uuid_2";
@@ -116,7 +118,7 @@ public abstract class AbstractStorageTest {
     @Test
     public void getAllSorted() {
         List<Resume> expectedResume = storage.getAllSorted();
-        Assert.assertEquals(expectedResume, Arrays.asList(RESUME5, RESUME1, RESUME4, RESUME2, RESUME6, RESUME3));
+        Assert.assertEquals(expectedResume, new ArrayList<>(Arrays.asList(RESUME5, RESUME1, RESUME4, RESUME2, RESUME6, RESUME3)));
         Assert.assertEquals(6, expectedResume.size());
     }
 

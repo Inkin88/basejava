@@ -14,11 +14,10 @@ import java.util.UUID;
 public class Resume implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
-    private final Map<SectionType, Section> section = new EnumMap<>(SectionType.class);
-    private final Map<ContactsType, String> contacts = new EnumMap<>(ContactsType.class);
     private String uuid;
     private String fullName;
+    private final Map<ContactsType, String> contacts = new EnumMap<>(ContactsType.class);
+    private final Map<SectionType, Section> section = new EnumMap<>(SectionType.class);
 
     public Resume() {
     }
@@ -28,8 +27,10 @@ public class Resume implements Serializable {
     }
 
     public Resume(String uuid, String fullName) {
-        this.uuid = Objects.requireNonNull(uuid);
-        this.fullName = Objects.requireNonNull(fullName);
+        Objects.requireNonNull(uuid, "uuid must not be null");
+        Objects.requireNonNull(fullName, "fullName must not be null");
+        this.uuid = uuid;
+        this.fullName = fullName;
     }
 
     public static long getSerialVersionUID() {
@@ -73,15 +74,15 @@ public class Resume implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Resume resume = (Resume) o;
-        return Objects.equals(section, resume.section) &&
+        return Objects.equals(uuid, resume.uuid) &&
+                Objects.equals(fullName, resume.fullName) &&
                 Objects.equals(contacts, resume.contacts) &&
-                Objects.equals(uuid, resume.uuid) &&
-                Objects.equals(fullName, resume.fullName);
+                Objects.equals(section, resume.section);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(section, contacts, uuid, fullName);
+        return Objects.hash(uuid, fullName, contacts, section);
     }
 
     @Override

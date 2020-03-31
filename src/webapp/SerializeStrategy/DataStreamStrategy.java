@@ -92,7 +92,7 @@ public class DataStreamStrategy implements Strategy {
                         getList(dis, () -> new Organization.Position(readLocalDate(dis), readLocalDate(dis),
                                 dis.readUTF(), dis.readUTF())))));
             default:
-                throw new StorageException("Что-то случилось", null);
+                throw new StorageException("Что-то случилось");
         }
     }
 

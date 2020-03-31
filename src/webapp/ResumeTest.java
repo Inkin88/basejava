@@ -12,7 +12,7 @@ public class ResumeTest {
     public static Resume resume = new Resume("Kislin Grigory");
 
     public static Resume getResume() {
-        init();
+      //  init();
         return resume;
     }
 
