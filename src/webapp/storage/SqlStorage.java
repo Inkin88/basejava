@@ -12,7 +12,7 @@ import java.util.List;
 
 public class SqlStorage implements Storage {
 
-    public final SqlHelper sqlHelper;
+    private final SqlHelper sqlHelper;
 
     public SqlStorage(String dburl, String dbuser, String dbpassword) {
         sqlHelper = new SqlHelper(() -> DriverManager.getConnection(dburl, dbuser, dbpassword));
@@ -25,10 +25,9 @@ public class SqlStorage implements Storage {
 
     @Override
     public void update(Resume resume) {
-        sqlHelper.executeQuery("UPDATE resume SET uuid = ?, full_name = ? WHERE uuid = ?", ps -> {
-            ps.setString(1, resume.getUuid());
-            ps.setString(2, resume.getFullName());
-            ps.setString(3, resume.getUuid());
+        sqlHelper.executeQuery("UPDATE resume SET full_name = ? WHERE uuid = ?", ps -> {
+            ps.setString(1, resume.getFullName());
+            ps.setString(2, resume.getUuid());
             if (ps.executeUpdate() == 0) {
                 throw new NotExistStorageException(resume.getUuid());
             }
@@ -55,8 +54,7 @@ public class SqlStorage implements Storage {
             if (!rs.next()) {
                 throw new NotExistStorageException(uuid);
             }
-            Resume resume = new Resume(uuid, rs.getString("full_name"));
-            return resume;
+            return new Resume(uuid, rs.getString("full_name"));
         });
     }
 
@@ -64,7 +62,7 @@ public class SqlStorage implements Storage {
     public void delete(String uuid) {
         sqlHelper.executeQuery("DELETE FROM resume WHERE uuid=?", ps -> {
             ps.setString(1, uuid);
-            if (!ps.execute()) {
+            if (ps.executeUpdate() == 0) {
                 throw new NotExistStorageException(uuid);
             }
             return null;
