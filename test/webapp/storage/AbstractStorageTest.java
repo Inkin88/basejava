@@ -12,13 +12,14 @@ import webapp.model.Resume;
 import webapp.model.SectionType;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public abstract class AbstractStorageTest {
 
     protected static final File STORAGE_DIR = Config.get().getStorageDir();
+
+    protected static final Comparator<Resume> SORT_BY_ALL_FIELDS = Comparator.comparing(Resume::getFullName).
+            thenComparing(Resume::getUuid);
 
     private static final String UUID_1 = "uuid_1";
     private static final String UUID_2 = "uuid_2";
@@ -42,6 +43,10 @@ public abstract class AbstractStorageTest {
     private static final Resume RESUME5 = new Resume(UUID_5, FULLNAME_5);
     private static final Resume RESUME6 = new Resume(UUID_6, FULLNAME_6);
 
+    static {
+        RESUME5.addContact(ContactsType.SKYPE, "skype5");
+    }
+
     protected AbstractStorageTest(Storage storage) {
         this.storage = storage;
     }
@@ -55,6 +60,7 @@ public abstract class AbstractStorageTest {
         storage.save(RESUME4);
         storage.save(RESUME5);
         storage.save(RESUME6);
+
     }
 
     @Test
@@ -91,6 +97,8 @@ public abstract class AbstractStorageTest {
     @Test
     public void update() {
         Resume resume = new Resume(UUID_2, FULLNAME_2);
+        resume.addContact(ContactsType.SKYPE, "skype");
+        resume.addContact(ContactsType.MAIL, "mail@mail.ru");
         storage.update(resume);
         Assert.assertEquals(resume, storage.get(UUID_2));
     }
@@ -118,6 +126,7 @@ public abstract class AbstractStorageTest {
     @Test
     public void getAllSorted() {
         List<Resume> expectedResume = storage.getAllSorted();
+        expectedResume.sort(SORT_BY_ALL_FIELDS);
         Assert.assertEquals(expectedResume, new ArrayList<>(Arrays.asList(RESUME5, RESUME1, RESUME4, RESUME2, RESUME6, RESUME3)));
         Assert.assertEquals(6, expectedResume.size());
     }
