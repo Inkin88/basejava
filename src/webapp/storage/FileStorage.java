@@ -1,6 +1,6 @@
 package webapp.storage;
 
-import webapp.SerializeStrategy.Strategy;
+import webapp.serializeStrategy.Strategy;
 import webapp.exception.StorageException;
 import webapp.model.Resume;
 

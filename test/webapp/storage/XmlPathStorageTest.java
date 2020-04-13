@@ -1,6 +1,6 @@
 package webapp.storage;
 
-import webapp.SerializeStrategy.XmlStreamStrategy;
+import webapp.serializeStrategy.XmlStreamStrategy;
 
 public class XmlPathStorageTest extends AbstractStorageTest{
 

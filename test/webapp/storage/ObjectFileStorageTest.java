@@ -1,6 +1,6 @@
 package webapp.storage;
 
-import webapp.SerializeStrategy.ObjectStreamStrategy;
+import webapp.serializeStrategy.ObjectStreamStrategy;
 
 public class ObjectFileStorageTest extends AbstractStorageTest{
 

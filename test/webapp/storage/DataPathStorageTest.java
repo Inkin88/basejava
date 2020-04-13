@@ -1,6 +1,6 @@
 package webapp.storage;
 
-import webapp.SerializeStrategy.DataStreamStrategy;
+import webapp.serializeStrategy.DataStreamStrategy;
 
 public class DataPathStorageTest extends AbstractStorageTest{
 

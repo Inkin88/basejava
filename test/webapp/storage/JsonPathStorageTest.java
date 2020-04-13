@@ -1,6 +1,6 @@
 package webapp.storage;
 
-import webapp.SerializeStrategy.JsonStreamStrategy;
+import webapp.serializeStrategy.JsonStreamStrategy;
 
 public class JsonPathStorageTest extends AbstractStorageTest{
 

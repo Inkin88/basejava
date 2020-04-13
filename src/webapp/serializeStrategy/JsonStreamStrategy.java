@@ -1,4 +1,4 @@
-package webapp.SerializeStrategy;
+package webapp.serializeStrategy;
 
 import webapp.model.Resume;
 import webapp.util.JsonParser;

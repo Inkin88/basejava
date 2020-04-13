@@ -18,9 +18,6 @@ public abstract class AbstractStorageTest {
 
     protected static final File STORAGE_DIR = Config.get().getStorageDir();
 
-    protected static final Comparator<Resume> SORT_BY_ALL_FIELDS = Comparator.comparing(Resume::getFullName).
-            thenComparing(Resume::getUuid);
-
     private static final String UUID_1 = "uuid_1";
     private static final String UUID_2 = "uuid_2";
     private static final String UUID_3 = "uuid_3";
@@ -126,7 +123,6 @@ public abstract class AbstractStorageTest {
     @Test
     public void getAllSorted() {
         List<Resume> expectedResume = storage.getAllSorted();
-        expectedResume.sort(SORT_BY_ALL_FIELDS);
         Assert.assertEquals(expectedResume, new ArrayList<>(Arrays.asList(RESUME5, RESUME1, RESUME4, RESUME2, RESUME6, RESUME3)));
         Assert.assertEquals(6, expectedResume.size());
     }

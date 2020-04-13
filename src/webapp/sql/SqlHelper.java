@@ -19,7 +19,7 @@ public class SqlHelper {
              PreparedStatement ps = conn.prepareStatement(sqlQuery)) {
              return block.execute(ps);
         } catch (SQLException e) {
-            throw new ExistStorageException(e.getMessage());
+            throw ExceptionUtil.convertException(e);
         }
     }
 
@@ -32,7 +32,7 @@ public class SqlHelper {
                 return res;
             } catch (SQLException e) {
                 conn.rollback();
-                throw new SQLException(e);
+                throw ExceptionUtil.convertException(e);
             }
         } catch (SQLException e) {
             throw new ExistStorageException(e.getMessage());
