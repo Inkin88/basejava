@@ -57,7 +57,6 @@ public abstract class AbstractStorageTest {
         storage.save(RESUME4);
         storage.save(RESUME5);
         storage.save(RESUME6);
-
     }
 
     @Test

@@ -1,7 +1,9 @@
 package webapp;
 
-import webapp.model.ContactsType;
-import webapp.model.Resume;
+import webapp.model.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ResumeTest {
 
@@ -18,33 +20,33 @@ public class ResumeTest {
         resume.addContact(ContactsType.LINKEDIN, "https://www.linkedin.com/in/gkislin");
         resume.addContact(ContactsType.GITHUB, "https://github.com/gkislin");
         resume.addContact(ContactsType.STACKOVERFLOW, "https://stackoverflow.com/users/548473/grigory-kislin");
-//        resume.addSection(SectionType.OBJECTIVE, new TextSection("Ведущий стажировок и корпоративного обучения по Java Web и Enterprise технологиям"));
-//        resume.addSection(SectionType.PERSONAL, new TextSection("Аналитический склад ума, сильная логика, креативность, инициативность. Пурист кода и архитектуры."));
-//        List<String> strings = new ArrayList<>();
-//        strings.add("С 2013 года: разработка проектов \"Разработка Web приложения\",\"Java Enterprise\", \"Многомодульный maven. Многопоточность. XML (JAXB/StAX). Веб сервисы (JAX-RS/SOAP). Удаленное взаимодействие (JMS/AKKA)\". Организация онлайн стажировок и ведение проектов. Более 1000 выпускников.");
-//        strings.add("Реализация двухфакторной аутентификации для онлайн платформы управления проектами Wrike. Интеграция с Twilio, DuoSecurity, Google Authenticator, Jira, Zendesk.");
-//        strings.add("Налаживание процесса разработки и непрерывной интеграции ERP системы River BPM. Интеграция с 1С, Bonita BPM, CMIS, LDAP. Разработка приложения управления окружением на стеке: Scala/Play/Anorm/JQuery. Разработка SSO аутентификации и авторизации различных ERP модулей, интеграция CIFS/SMB java сервера.");
-//        strings.add("Реализация c нуля Rich Internet Application приложения на стеке технологий JPA, Spring, Spring-MVC, GWT, ExtGWT (GXT), Commet, HTML5, Highstock для алгоритмического трейдинга.");
-//        strings.add("Создание JavaEE фреймворка для отказоустойчивого взаимодействия слабо-связанных сервисов (SOA-base архитектура, JAX-WS, JMS, AS Glassfish). Сбор статистики сервисов и информации о состоянии через систему мониторинга Nagios. Реализация онлайн клиента для администрирования и мониторинга системы по JMX (Jython/ Django).");
-//        strings.add("Реализация протоколов по приему платежей всех основных платежных системы России (Cyberplat, Eport, Chronopay, Сбербанк), Белоруcсии(Erip, Osmp) и Никарагуа.");
-//        resume.addSection(SectionType.ACHIEVEMENT, new ListSection(strings));
-//        List<String> strings2 = new ArrayList<>();
-//        strings2.add("JEE AS: GlassFish (v2.1, v3), OC4J, JBoss, Tomcat, Jetty, WebLogic, WSO2");
-//        strings2.add("Version control: Subversion, Git, Mercury, ClearCase, Perforce");
-//        strings2.add("DB: PostgreSQL(наследование, pgplsql, PL/Python), Redis (Jedis), H2, Oracle,");
-//        strings2.add("MySQL, SQLite, MS SQL, HSQLDB");
-//        strings2.add("Languages: Java, Scala, Python/Jython/PL-Python, JavaScript, Groovy,");
-//        strings2.add("XML/XSD/XSLT, SQL, C/C++, Unix shell scripts,");
-//        strings2.add("Java Frameworks: Java 8 (Time API, Streams), Guava, Java Executor, MyBatis, Spring (MVC, Security, Data, Clouds, Boot), JPA (Hibernate, EclipseLink), Guice, GWT(SmartGWT, ExtGWT/GXT), Vaadin, Jasperreports, Apache Commons, Eclipse SWT, JUnit, Selenium (htmlelements).");
-//        strings2.add("Python: Django.");
-//        strings2.add("JavaScript: jQuery, ExtJS, Bootstrap.js, underscore.js");
-//        strings2.add("Scala: SBT, Play2, Specs2, Anorm, Spray, Akka");
-//        strings2.add("Технологии: Servlet, JSP/JSTL, JAX-WS, REST, EJB, RMI, JMS, JavaMail, JAXB, StAX, SAX, DOM, XSLT, MDB, JMX, JDBC, JPA, JNDI, JAAS, SOAP, AJAX, Commet, HTML5, ESB, CMIS, BPMN2, LDAP, OAuth1, OAuth2, JWT.");
-//        strings2.add("Инструменты: Maven + plugin development, Gradle, настройка Ngnix,");
-//        strings2.add("администрирование Hudson/Jenkins, Ant + custom task, SoapUI, JPublisher, Flyway, Nagios, iReport, OpenCmis, Bonita, pgBouncer.");
-//        strings2.add("Отличное знание и опыт применения концепций ООП, SOA, шаблонов проектрирования, архитектурных шаблонов, UML, функционального программирования");
-//        strings2.add("Родной русский, английский \"upper intermediate\"");
-//        resume.addSection(SectionType.QUALIFICATION, new ListSection(strings2));
+        resume.addSection(SectionType.OBJECTIVE, new TextSection("Ведущий стажировок и корпоративного обучения по Java Web и Enterprise технологиям"));
+        resume.addSection(SectionType.PERSONAL, new TextSection("Аналитический склад ума, сильная логика, креативность, инициативность. Пурист кода и архитектуры."));
+        List<String> strings = new ArrayList<>();
+        strings.add("С 2013 года: разработка проектов \"Разработка Web приложения\",\"Java Enterprise\", \"Многомодульный maven. Многопоточность. XML (JAXB/StAX). Веб сервисы (JAX-RS/SOAP). Удаленное взаимодействие (JMS/AKKA)\". Организация онлайн стажировок и ведение проектов. Более 1000 выпускников.");
+        strings.add("Реализация двухфакторной аутентификации для онлайн платформы управления проектами Wrike. Интеграция с Twilio, DuoSecurity, Google Authenticator, Jira, Zendesk.");
+        strings.add("Налаживание процесса разработки и непрерывной интеграции ERP системы River BPM. Интеграция с 1С, Bonita BPM, CMIS, LDAP. Разработка приложения управления окружением на стеке: Scala/Play/Anorm/JQuery. Разработка SSO аутентификации и авторизации различных ERP модулей, интеграция CIFS/SMB java сервера.");
+        strings.add("Реализация c нуля Rich Internet Application приложения на стеке технологий JPA, Spring, Spring-MVC, GWT, ExtGWT (GXT), Commet, HTML5, Highstock для алгоритмического трейдинга.");
+        strings.add("Создание JavaEE фреймворка для отказоустойчивого взаимодействия слабо-связанных сервисов (SOA-base архитектура, JAX-WS, JMS, AS Glassfish). Сбор статистики сервисов и информации о состоянии через систему мониторинга Nagios. Реализация онлайн клиента для администрирования и мониторинга системы по JMX (Jython/ Django).");
+        strings.add("Реализация протоколов по приему платежей всех основных платежных системы России (Cyberplat, Eport, Chronopay, Сбербанк), Белоруcсии(Erip, Osmp) и Никарагуа.");
+        resume.addSection(SectionType.ACHIEVEMENT, new ListSection(strings));
+        List<String> strings2 = new ArrayList<>();
+        strings2.add("JEE AS: GlassFish (v2.1, v3), OC4J, JBoss, Tomcat, Jetty, WebLogic, WSO2");
+        strings2.add("Version control: Subversion, Git, Mercury, ClearCase, Perforce");
+        strings2.add("DB: PostgreSQL(наследование, pgplsql, PL/Python), Redis (Jedis), H2, Oracle,");
+        strings2.add("MySQL, SQLite, MS SQL, HSQLDB");
+        strings2.add("Languages: Java, Scala, Python/Jython/PL-Python, JavaScript, Groovy,");
+        strings2.add("XML/XSD/XSLT, SQL, C/C++, Unix shell scripts,");
+        strings2.add("Java Frameworks: Java 8 (Time API, Streams), Guava, Java Executor, MyBatis, Spring (MVC, Security, Data, Clouds, Boot), JPA (Hibernate, EclipseLink), Guice, GWT(SmartGWT, ExtGWT/GXT), Vaadin, Jasperreports, Apache Commons, Eclipse SWT, JUnit, Selenium (htmlelements).");
+        strings2.add("Python: Django.");
+        strings2.add("JavaScript: jQuery, ExtJS, Bootstrap.js, underscore.js");
+        strings2.add("Scala: SBT, Play2, Specs2, Anorm, Spray, Akka");
+        strings2.add("Технологии: Servlet, JSP/JSTL, JAX-WS, REST, EJB, RMI, JMS, JavaMail, JAXB, StAX, SAX, DOM, XSLT, MDB, JMX, JDBC, JPA, JNDI, JAAS, SOAP, AJAX, Commet, HTML5, ESB, CMIS, BPMN2, LDAP, OAuth1, OAuth2, JWT.");
+        strings2.add("Инструменты: Maven + plugin development, Gradle, настройка Ngnix,");
+        strings2.add("администрирование Hudson/Jenkins, Ant + custom task, SoapUI, JPublisher, Flyway, Nagios, iReport, OpenCmis, Bonita, pgBouncer.");
+        strings2.add("Отличное знание и опыт применения концепций ООП, SOA, шаблонов проектрирования, архитектурных шаблонов, UML, функционального программирования");
+        strings2.add("Родной русский, английский \"upper intermediate\"");
+        resume.addSection(SectionType.QUALIFICATION, new ListSection(strings2));
 //        List<Organization> organizations = new ArrayList<>();
 //        organizations.add(new Organization("http://javaops.ru", "Java Online Projects", new Organization.Position(DateUtil.of(2013, Month.OCTOBER), DateUtil.of(2020, Month.FEBRUARY), "Автор проекта", "Создание, организация и проведение Java онлайн проектов и стажировок.")));
 //        organizations.add(new Organization("https://www.wrike.com", "Wrike", new Organization.Position(DateUtil.of(2014, Month.OCTOBER), DateUtil.of(2016, Month.JANUARY), "\tСтарший разработчик (backend)", "Проектирование и разработка онлайн платформы управления проектами Wrike (Java 8 API, Maven, Spring, MyBatis, Guava, Vaadin, PostgreSQL, Redis). Двухфакторная аутентификация, авторизация по OAuth1, OAuth2, JWT SSO.")));
