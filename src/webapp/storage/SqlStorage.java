@@ -4,18 +4,19 @@ import webapp.exception.NotExistStorageException;
 import webapp.exception.StorageException;
 import webapp.model.*;
 import webapp.sql.SqlHelper;
-
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class SqlStorage implements Storage {
 
     private SqlHelper sqlHelper;
 
     public SqlStorage(String dburl, String dbuser, String dbpassword) {
+        try {
+            Class.forName("org.postgresql.Driver");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
         sqlHelper = new SqlHelper(() -> DriverManager.getConnection(dburl, dbuser, dbpassword));
     }
 
@@ -85,7 +86,6 @@ public class SqlStorage implements Storage {
             return r;
         });
     }
-
 
     @Override
     public void delete(String uuid) {
@@ -197,9 +197,7 @@ public class SqlStorage implements Storage {
             case ACHIEVEMENT:
             case QUALIFICATION:
                 List<String> list = new ArrayList<>();
-                while (rs.next()) {
-                    list.add(rs.getString("content") + "\n");
-                }
+                list.add(rs.getString("content"));
                 return new ListSection(list);
             case EXPERIENCE:
             case EDUCATION:
@@ -215,12 +213,8 @@ public class SqlStorage implements Storage {
                 return ((TextSection) section).getText();
             case ACHIEVEMENT:
             case QUALIFICATION:
-                String result = "";
                 List<String> list = new ArrayList<>(((ListSection) section).getStringList());
-                for (String s : list) {
-                    result += s + "\n";
-                }
-                return result;
+                return String.join("\n", list);
             case EXPERIENCE:
             case EDUCATION:
             default:

@@ -4,7 +4,7 @@ import java.io.*;
 import java.util.Properties;
 
 public class Config {
-    private static final File PROPS = new File("config\\resumes.properties");
+    private static final File PROPS = new File("C:\\projects\\basejava\\config\\resumes.properties");
     private static final Config INSTANCE = new Config();
     private Properties props = new Properties();
     private File storageDir;
@@ -28,5 +28,17 @@ public class Config {
 
     public Properties getProps() {
         return props;
+    }
+
+    public  String getUrl() {
+        return props.getProperty("db.url");
+    }
+
+    public String getUser() {
+        return props.getProperty("db.user");
+    }
+
+    public String getPassword() {
+        return props.getProperty("db.password");
     }
 }

@@ -6,6 +6,7 @@ import webapp.exception.StorageException;
 import webapp.model.Resume;
 
 public class AbstractArrayStorageTest extends AbstractStorageTest {
+
     protected AbstractArrayStorageTest(Storage storage) {
         super(storage);
     }
