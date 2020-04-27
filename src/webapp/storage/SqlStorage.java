@@ -196,8 +196,8 @@ public class SqlStorage implements Storage {
                 return new TextSection(rs.getString("content"));
             case ACHIEVEMENT:
             case QUALIFICATION:
-                List<String> list = new ArrayList<>();
-                list.add(rs.getString("content"));
+                String[] strings = rs.getString("content").split("\n");
+                List<String> list = new ArrayList<>(Arrays.asList(strings));
                 return new ListSection(list);
             case EXPERIENCE:
             case EDUCATION:
