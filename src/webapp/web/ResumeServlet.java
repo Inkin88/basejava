@@ -28,19 +28,27 @@ public class ResumeServlet extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
         response.setContentType("text/html; charset=UTF-8");
         PrintWriter writer = response.getWriter();
-        writer.println("<table>\n" +
-                "<tbody>\n" +
+        writer.println("<html>\n" +
+                "<head>\n" +
+                "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">" +
+                "<title>Список всех резюме.</title>\n" +
+                "<link rel=\"stylesheet\" href=\"css/style.css\">\n" +
+                "</head>\n" +
+                "<body>\n" +
+                "<table>\n" +
+                "<caption>Список резюме</caption>\n" +
                 "<tr>\n" +
-                "<th> UUID <th>\n" +
-                "<th> Full_Name <th>\n" +
-                "<tr>");
+                "<th>UUID</th>\n" +
+                "<th>Full_Name</th>\n" +
+                "</tr>\n");
         for (Resume r : storage.getAllSorted()) {
-            writer.println("<tr>");
-            writer.println("<td>" + r.getUuid() + "</td>");
-            writer.println("<td>" + r.getFullName() + "</td>");
-            writer.println("</tr>");
+            writer.println("<tr>\n");
+            writer.println("<td>" + r.getUuid() + "</td>\n");
+            writer.println("<td>" + r.getFullName() + "</td>\n");
+            writer.println("</tr>\n");
         }
-        writer.println("<tbody>\n" +
-                "<table>\n");
+        writer.println("</table>\n" +
+                "</body>\n" +
+                "</html>\n");
     }
 }
