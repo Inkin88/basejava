@@ -17,6 +17,7 @@ public class ResumeTest {
     public static void init() {
         resume.addContact(ContactsType.TELEPHONE, "+7(921) 855-0482");
         resume.addContact(ContactsType.SKYPE, "grigory.kislin");
+        resume.addContact(ContactsType.MAIL, "grigory.kislin@mail.ru");
         resume.addContact(ContactsType.LINKEDIN, "https://www.linkedin.com/in/gkislin");
         resume.addContact(ContactsType.GITHUB, "https://github.com/gkislin");
         resume.addContact(ContactsType.STACKOVERFLOW, "https://stackoverflow.com/users/548473/grigory-kislin");
@@ -66,7 +67,6 @@ public class ResumeTest {
 //                new Organization.Position(DateUtil.of(1987, Month.SEPTEMBER), DateUtil.of(1993, Month.JULY), "Аспирантура (программист С, С++)", null)));
 //        eduList.add(new Organization("http://www.school.mipt.ru", "Заочная физико-техническая школа при МФТИ", new Organization.Position(DateUtil.of(1984, Month.SEPTEMBER), DateUtil.of(1987, Month.JUNE), "Закончил с отличием", null)));
 //        resume.addSection(SectionType.EDUCATION, new OrganizationListSection(eduList));
-
     }
 
     public static void main(String[] args) {

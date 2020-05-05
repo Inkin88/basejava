@@ -1,11 +1,18 @@
 package webapp.storage;
 
 import webapp.exception.NotExistStorageException;
-import webapp.exception.StorageException;
-import webapp.model.*;
+import webapp.model.ContactsType;
+import webapp.model.Resume;
+import webapp.model.Section;
+import webapp.model.SectionType;
 import webapp.sql.SqlHelper;
+import webapp.util.JsonParser;
+
 import java.sql.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 public class SqlStorage implements Storage {
 
@@ -152,7 +159,7 @@ public class SqlStorage implements Storage {
             for (Map.Entry<SectionType, Section> e : resume.getSections().entrySet()) {
                 ps.setString(1, resume.getUuid());
                 ps.setString(2, e.getKey().name());
-                ps.setString(3, getSectionContent(e.getKey(), e.getValue()));
+                ps.setString(3, JsonParser.write(e.getValue(), Section.class));
                 ps.addBatch();
             }
             ps.executeBatch();
@@ -185,40 +192,7 @@ public class SqlStorage implements Storage {
         String content = rs.getString("content");
         if (content != null) {
             SectionType sectionType = SectionType.valueOf(rs.getString("type"));
-            resume.addSection(sectionType, getSection(sectionType, rs));
-        }
-    }
-
-    private Section getSection(SectionType sectionType, ResultSet rs) throws SQLException {
-        switch (sectionType) {
-            case OBJECTIVE:
-            case PERSONAL:
-                return new TextSection(rs.getString("content"));
-            case ACHIEVEMENT:
-            case QUALIFICATION:
-                String[] strings = rs.getString("content").split("\n");
-                List<String> list = new ArrayList<>(Arrays.asList(strings));
-                return new ListSection(list);
-            case EXPERIENCE:
-            case EDUCATION:
-            default:
-                throw new StorageException("Что-то случилось");
-        }
-    }
-
-    private String getSectionContent(SectionType sectionType, Section section) {
-        switch (sectionType) {
-            case OBJECTIVE:
-            case PERSONAL:
-                return ((TextSection) section).getText();
-            case ACHIEVEMENT:
-            case QUALIFICATION:
-                List<String> list = new ArrayList<>(((ListSection) section).getStringList());
-                return String.join("\n", list);
-            case EXPERIENCE:
-            case EDUCATION:
-            default:
-                throw new StorageException("Что-то случилось");
+            resume.addSection(sectionType, JsonParser.read(content, Section.class));
         }
     }
 }
