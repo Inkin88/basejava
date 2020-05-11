@@ -7,7 +7,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import static webapp.Config.get;
 
@@ -73,6 +75,20 @@ public class ResumeServlet extends HttpServlet {
             case "edit":
             case "view":
                 resume = storage.get(uuid);
+                for (SectionType type : new SectionType[]{SectionType.EXPERIENCE, SectionType.EDUCATION}) {
+                    OrganizationListSection section = (OrganizationListSection) resume.getSection(type);
+                    List<Organization> emptyFirstOrganizations = new ArrayList<>();
+                    emptyFirstOrganizations.add(Organization.EMPTY);
+                    if (section != null) {
+                        for (Organization org : section.getOrganizationList()) {
+                            List<Organization.Position> emptyFirstPositions = new ArrayList<>();
+                            emptyFirstPositions.add(Organization.Position.EMPTY);
+                            emptyFirstPositions.addAll(org.getPositions());
+                            emptyFirstOrganizations.add(new Organization(org.getUrl(), org.getName(), emptyFirstPositions));
+                        }
+                    }
+                    resume.addSection(type, new OrganizationListSection(emptyFirstOrganizations));
+                }
                 break;
             case "add":
                 resume = new Resume("Новое резюме");

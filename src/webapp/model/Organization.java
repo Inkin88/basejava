@@ -15,6 +15,8 @@ public class Organization implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    public static final Organization EMPTY = new Organization("", "", Position.EMPTY);
+
     private String url;
     private String name;
     private List<Position> positions;
@@ -93,6 +95,8 @@ public class Organization implements Serializable {
 
         public Position() {
         }
+
+        public static final Position EMPTY = new Position();
 
         public LocalDate getStartDate() {
             return startDate;
