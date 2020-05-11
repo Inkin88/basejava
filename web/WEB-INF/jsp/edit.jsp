@@ -43,12 +43,12 @@
                 <textarea name='${type}' cols=75 rows=5><%=String.join("\n",
                         ((ListSection) section).getStringList())%></textarea>
                 </c:when>
-                <c:when test="${type== 'EXPERIENCE' || type=='EDUCATION'}">
+                <c:when test="${type=='EXPERIENCE' || type=='EDUCATION'}">
                     <c:forEach var="organization"
-                               items="<%=((OrganizationListSection) section).getOrganizationList()%>">
+                               items="<%=((OrganizationListSection) section).getOrganizationList()%>" varStatus="counter">
                         <dl>
                             <dt>Сайт организации:</dt>
-                            <dd><input type="text" name='${type}' value='${organization.url}'></dd>
+                            <dd><input type="text" name='${type}url' value='${organization.url}'></dd>
                         </dl>
                         <dl>
                             <dt>Название организации:</dt>
@@ -60,24 +60,24 @@
                             <dl>
                                 <dt>Начальная дата:</dt>
                                 <dd>
-                                    <input type="text" name="${type}startDate" size=10
-                                           value="<%=pos.getStartDate()%>" placeholder="MM/yyyy">
+                                    <input type="text" name="${type}${counter.index}startDate" size=10
+                                           value="<%=DateUtil.format(pos.getStartDate())%>">
                                 </dd>
                             </dl>
                             <dl>
                                 <dt>Конечная дата:</dt>
                                 <dd>
-                                    <input type="text" name="${type}endDate" size=10
-                                           value="<%=pos.getEndDate()%>" placeholder="MM/yyyy">
+                                    <input type="text" name="${type}${counter.index}endDate" size=10
+                                           value="<%=DateUtil.format(pos.getEndDate())%>">
                             </dl>
                             <dl>
                                 <dt>Должность:</dt>
-                                <dd><input type="text" name='${type}title' size=75
+                                <dd><input type="text" name='${type}${counter.index}title' size=75
                                            value="${pos.position}">
                             </dl>
                             <dl>
                                 <dt>Описание:</dt>
-                                <dd><textarea name="${type}description" rows=5
+                                <dd><textarea name="${type}${counter.index}description" rows=5
                                               cols=75>${pos.description}</textarea></dd>
                             </dl>
                         </c:forEach>

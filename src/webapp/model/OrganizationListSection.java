@@ -2,6 +2,7 @@ package webapp.model;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -12,6 +13,10 @@ public class OrganizationListSection extends Section {
     private List<Organization> organizationList;
 
     public OrganizationListSection() {
+    }
+
+    public OrganizationListSection(Organization... organizations) {
+        this(Arrays.asList(organizations));
     }
 
     public OrganizationListSection(List<Organization> organizationList) {

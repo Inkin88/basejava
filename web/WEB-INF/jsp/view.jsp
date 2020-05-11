@@ -1,5 +1,6 @@
 <%@ page import="webapp.model.ListSection" %>
 <%@ page import="webapp.model.OrganizationListSection" %>
+<%@ page import="webapp.util.DateUtil" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
@@ -40,27 +41,29 @@
         </c:when>
         <c:when test="${type=='EXPERIENCE' || type=='EDUCATION'}">
             <table>
-            <c:forEach var="organization"
-                       items="<%=((OrganizationListSection) section).getOrganizationList()%>">
-                <c:forEach var="pos" items="${organization.positions}">
-                    <jsp:useBean id="pos" type="webapp.model.Organization.Position"/>
-                <tr>
-                <td><a href=${organization.url}>${organization.name}</a></td>
-                <td>
-                    <%=pos.getStartDate()%> - <%=pos.getEndDate()%>
-                    </td>
-                    <td>
-                       <b>${pos.position}:</b><br>
-                        ${pos.description}
-                    </td>
+                <c:forEach var="organization"
+                           items="<%=((OrganizationListSection) section).getOrganizationList()%>">
+                    <tr>
+                        <td colspan="2"><a href=${organization.url}>${organization.name}</a></td>
+
+                        <c:forEach var="pos" items="${organization.positions}">
+                            <jsp:useBean id="pos" type="webapp.model.Organization.Position"/>
+                            <tr>
+                            <td width="100">
+                                <%=DateUtil.format(pos.getStartDate())%> - <%=DateUtil.format(pos.getEndDate())%><br>
+                            </td>
+                            <td>
+                                <b>${pos.position}:</b><br>
+                                    ${pos.description}
+                            </td>
+                            </tr>
+                        </c:forEach>
                     </tr>
                 </c:forEach>
-            </c:forEach>
             </table>
         </c:when>
     </c:choose>
     </c:forEach>
-    </p>
 </section>
 <jsp:include page="fragments/footer.jsp"/>
 </body>
