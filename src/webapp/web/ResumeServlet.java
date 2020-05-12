@@ -37,16 +37,16 @@ public class ResumeServlet extends HttpServlet {
         }
         for (ContactsType type : ContactsType.values()) {
             String value = request.getParameter(type.name());
-            if (value != null || value.trim().length() != 0) {
-                resume.addContact(type, value);
-            } else {
+            if (value == null || value.trim().length() == 0) {
                 resume.getContacts().remove(type);
+            } else {
+                resume.addContact(type, value);
             }
         }
         for (SectionType sectionType : SectionType.values()) {
             String value = request.getParameter(sectionType.name());
             String[] values = request.getParameterValues(sectionType.name());
-            if (value == null && values.length < 2) {
+            if ((value == null || value.trim().length() == 0) && values.length < 2) {
                 resume.getSections().remove(sectionType);
             } else {
                 switch (sectionType) {
@@ -64,7 +64,7 @@ public class ResumeServlet extends HttpServlet {
                         String[] urls = request.getParameterValues(sectionType.name() + "url");
                         for (int i = 0; i < values.length; i++) {
                             String name = values[i];
-                            if (value != null || value.trim().length() != 0) {
+                            if (!(name == null || name.trim().length() == 0)) {
                                 List<Organization.Position> positions = new ArrayList<>();
                                 String pfx = sectionType.name() + i;
                                 String[] startDates = request.getParameterValues(pfx + "startDate");
@@ -72,7 +72,7 @@ public class ResumeServlet extends HttpServlet {
                                 String[] titles = request.getParameterValues(pfx + "title");
                                 String[] descriptions = request.getParameterValues(pfx + "description");
                                 for (int j = 0; j < titles.length; j++) {
-                                    if (titles[j] != null || titles[j].trim().length() != 0) {
+                                    if (!(titles[j] == null || titles[j].trim().length() == 0)) {
                                         positions.add(new Organization.Position(DateUtil.parse(startDates[j]), DateUtil.parse(endDates[j]), titles[j], descriptions[j]));
                                     }
                                 }

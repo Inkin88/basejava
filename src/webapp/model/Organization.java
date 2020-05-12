@@ -7,9 +7,14 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.Month;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+
+import static webapp.util.DateUtil.NOW;
+import static webapp.util.DateUtil.of;
+
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Organization implements Serializable {
 
@@ -94,6 +99,14 @@ public class Organization implements Serializable {
         }
 
         public Position() {
+        }
+
+        public Position(int startYear, Month startMonth, String title, String description) {
+            this(of(startYear, startMonth), NOW, title, description);
+        }
+
+        public Position(int startYear, Month startMonth, int endYear, Month endMonth, String title, String description) {
+            this(of(startYear, startMonth), of(endYear, endMonth), title, description);
         }
 
         public static final Position EMPTY = new Position();

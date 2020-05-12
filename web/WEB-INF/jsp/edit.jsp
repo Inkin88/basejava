@@ -28,6 +28,7 @@
                 <dd><input type="text" name="${type.name()}" size=30 value="${resume.getContacts(type)}"></dd>
             </dl>
         </c:forEach>
+        <hr>
         <c:forEach var="type" items="<%=SectionType.values()%>">
             <c:set var="section" value="${resume.getSection(type)}"/>
             <jsp:useBean id="section" type="webapp.model.Section"/>
@@ -54,7 +55,6 @@
                             <dt>Название организации:</dt>
                             <dd><input type="text" name='${type}' value='${organization.name}'></dd>
                         </dl>
-                        <br>
                         <c:forEach var="pos" items="${organization.positions}">
                             <jsp:useBean id="pos" type="webapp.model.Organization.Position"/>
                             <dl>
