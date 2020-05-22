@@ -6,7 +6,6 @@ create table resume
   full_name text not null
 );
 
-alter table resume owner to postgres;
 
 create table contact
 (
@@ -19,7 +18,6 @@ create table contact
   value text not null
 );
 
-alter table contact owner to postgres;
 
 create unique index contact_uuid_type_index
   on contact (resume_uuid, type);
@@ -37,5 +35,4 @@ create table section
   content text not null
 );
 
-alter table section owner to postgres;
 
